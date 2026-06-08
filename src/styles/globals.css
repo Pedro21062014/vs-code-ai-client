@@ -1,0 +1,212 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #1e1e1e;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #424242;
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #4f4f4f;
+  }
+  
+  ::-webkit-scrollbar-corner {
+    background: #1e1e1e;
+  }
+}
+
+@layer components {
+  .vscode-button {
+    @apply px-3 py-1.5 rounded text-sm font-medium transition-all duration-200;
+    @apply bg-vscode-accent text-white hover:bg-opacity-80;
+    @apply active:scale-95;
+  }
+  
+  .vscode-input {
+    @apply bg-vscode-sidebar border border-vscode-border rounded px-3 py-2;
+    @apply text-vscode-text placeholder-gray-500;
+    @apply focus:outline-none focus:border-vscode-accent;
+    @apply transition-colors duration-200;
+  }
+  
+  .vscode-panel {
+    @apply bg-vscode-editor border border-vscode-border;
+  }
+  
+  .vscode-tab {
+    @apply px-4 py-2 text-sm cursor-pointer transition-all duration-150;
+    @apply border-r border-vscode-border;
+    @apply hover:bg-vscode-hover;
+  }
+  
+  .vscode-tab.active {
+    @apply bg-vscode-editor text-vscode-text border-b-2 border-vscode-accent;
+  }
+}
+
+@layer utilities {
+  .text-shadow-glow {
+    text-shadow: 0 0 10px currentColor;
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, #007acc, #4ec9b0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* Syntax highlighting tokens */
+.token.keyword { color: #569cd6; }
+.token.string { color: #ce9178; }
+.token.number { color: #b5cea8; }
+.token.comment { color: #6a9955; }
+.token.function { color: #dcdcaa; }
+.token.variable { color: #9cdcfe; }
+.token.operator { color: #d4d4d4; }
+.token.punctuation { color: #d4d4d4; }
+.token.type { color: #4ec9b0; }
+
+/* Code block styling */
+.code-block {
+  @apply bg-vscode-sidebar rounded-lg p-4 my-2 overflow-x-auto;
+  border: 1px solid #3c3c3c;
+}
+
+.code-block pre {
+  @apply text-sm leading-relaxed;
+}
+
+/* Message animations */
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-enter {
+  animation: messageSlideIn 0.3s ease-out forwards;
+}
+
+/* Thinking animation */
+.thinking-dots span {
+  display: inline-block;
+  animation: thinkingBounce 1.4s infinite ease-in-out both;
+}
+
+.thinking-dots span:nth-child(1) { animation-delay: -0.32s; }
+.thinking-dots span:nth-child(2) { animation-delay: -0.16s; }
+.thinking-dots span:nth-child(3) { animation-delay: 0s; }
+
+@keyframes thinkingBounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Wave animation for thinking */
+.wave-container span {
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(180deg, #007acc, #4ec9b0);
+  border-radius: 4px;
+  animation: waveAnim 1s ease-in-out infinite;
+}
+
+.wave-container span:nth-child(1) { animation-delay: 0s; }
+.wave-container span:nth-child(2) { animation-delay: 0.1s; }
+.wave-container span:nth-child(3) { animation-delay: 0.2s; }
+.wave-container span:nth-child(4) { animation-delay: 0.3s; }
+.wave-container span:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes waveAnim {
+  0%, 100% { height: 8px; opacity: 0.5; }
+  50% { height: 24px; opacity: 1; }
+}
+
+/* Smooth scroll */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Resizer */
+.resizer {
+  @apply w-1 cursor-col-resize bg-transparent hover:bg-vscode-accent transition-colors duration-200;
+}
+
+.resizer-horizontal {
+  @apply h-1 cursor-row-resize bg-transparent hover:bg-vscode-accent transition-colors duration-200;
+}
+
+/* Tab bar */
+.tab-bar {
+  @apply flex bg-vscode-sidebar overflow-x-auto;
+  scrollbar-width: none;
+}
+
+.tab-bar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tree item */
+.tree-item {
+  @apply flex items-center gap-2 px-2 py-1 cursor-pointer;
+  @apply hover:bg-vscode-hover rounded;
+  @apply transition-colors duration-150;
+}
+
+.tree-item.active {
+  @apply bg-vscode-active;
+}
+
+/* Terminal styling */
+.terminal-container {
+  @apply bg-black text-green-400 p-4 font-mono text-sm;
+}
+
+.xterm-viewport::-webkit-scrollbar {
+  width: 8px;
+}
+
+.xterm-viewport::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
