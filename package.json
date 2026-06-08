@@ -3,12 +3,19 @@
   "version": "1.0.0",
   "description": "VS Code AI Client - IDE Inteligente com Chat Real-time",
   "type": "module",
+  "main": "electron/main.js",
+  "author": "Pedro <pedro@example.com>",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "electron": "electron .",
-    "electron:dev": "concurrently \"vite\" \"electron .\""
+    "electron:dev": "concurrently \"vite\" \"electron .\"",
+    "build:electron": "vite build && electron-builder",
+    "build:electron:win": "vite build && electron-builder --win",
+    "build:electron:linux": "vite build && electron-builder --linux",
+    "build:electron:mac": "vite build && electron-builder --mac"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.35.0",
@@ -30,8 +37,74 @@
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
     "electron": "^32.0.0",
+    "electron-builder": "^24.13.3",
+    "electron-util": "^1.0.0",
     "postcss": "^8.4.45",
     "tailwindcss": "^3.4.10",
     "vite": "^5.4.2"
+  },
+  "build": {
+    "appId": "com.vscodeai.client",
+    "productName": "VS Code AI Client",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "public/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "public/vscode-icon.svg"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ],
+      "icon": "public/vscode-icon.svg",
+      "category": "Development"
+    },
+    "deb": {
+      "depends": [
+        "libgtk-3-0",
+        "libnotify4",
+        "libnss3",
+        "libxss1",
+        "libxtst6",
+        "xdg-utils",
+        "libatspi2.0-0",
+        "libdrm2",
+        "libgbm1",
+        "libasound2"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "icon": "public/vscode-icon.svg",
+      "category": "public.app-category.developer-tools"
+    }
   }
 }
