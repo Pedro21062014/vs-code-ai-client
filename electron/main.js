@@ -1,8 +1,10 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const path = require('path');
-const { is } = require('electron-util');
 
 let mainWindow;
+
+// Check if we're in development or production
+const isDev = !app.isPackaged;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -21,11 +23,14 @@ function createWindow() {
   });
 
   // Load the app
-  if (is.development) {
+  if (isDev) {
     mainWindow.loadURL('http://localhost:5173');
     mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+    // In production, load from the asar bundle
+    const indexPath = path.join(__dirname, '../dist/index.html');
+    console.log('Loading from:', indexPath);
+    mainWindow.loadFile(indexPath);
   }
 
   // Create menu
@@ -89,6 +94,15 @@ function createWindow() {
 
   mainWindow.on('closed', () => {
     mainWindow = null;
+  });
+
+  // Log errors
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
+    console.error('Failed to load:', errorCode, errorDescription);
+  });
+
+  mainWindow.webContents.on('crashed', () => {
+    console.error('Renderer process crashed');
   });
 }
 
